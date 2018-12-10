@@ -71,9 +71,9 @@ struct CurrentWeather: Codable {
 let request = CurrentWeatherRequest.location(latitude: 19.409079, longitude: -99.176728)
 Network.performRequest(request) { (result: Result<CurrentWeather>) in
     switch result {
-    case .success(let weather):
+    case .success(let currentWeather):
         print("Weather downloaded")
-        dump(weather)
+        print(currentWeather.weather?.condition?.text ?? "No weather")
     case .failure(let error):
         print(error.localizedDescription)
     }
