@@ -1,28 +1,75 @@
 import UIKit
 import PlaygroundSupport
 
+struct Location: Codable {
+    let country: String?
+    let latitude: Double?
+    let longitude: Double?
+    let name: String?
+    let time: String?
+    let region: String?
 
-let apiKey = "6e1272c89227425c890161300181012"
-
-enum CurrentWeatherRequest: NetworkRequest {
-    case location(latitude: Double, longitude: Double)
-
-    var method: HTTPMethod { return .get }
-    var path: String {
-        switch self {
-        case .location(let latitude, let longitude):
-            var retEndpoint = "current.json?" + "q="
-            retEndpoint += String(latitude)
-            retEndpoint += ","
-            retEndpoint += String(longitude)
-            retEndpoint += "&key=" + apiKey
-            return retEndpoint
-        }
+    enum CodingKeys: String, CodingKey {
+        case country = "country"
+        case latitude = "lat"
+        case longitude = "lon"
+        case name = "name"
+        case time = "localtime"
+        case region = "region"
     }
-    var parameters: Codable? { return .none }
 }
+
+struct WeatherCondition: Codable {
+    let code: Int?
+    let icon: String?
+    let text: String?
+}
+
+struct Weather: Codable {
+    let cloudPercent: Int?
+    let condition: WeatherCondition?
+    let senseCelsius: Double?
+    let senseFahrenheit: Double?
+    let humidity: Int?
+    let isDayTime: Int?
+    let lastUpdated: String?
+    let temperatureCelsius: Double?
+    let temperatureFahrenheit: Double?
+    let windKmPH: Double?
+    let windMPH: Double?
+    let precipitationInch: Double?
+    let precipitationMilimiters: Double?
+
+
+    enum CodingKeys: String, CodingKey {
+        case cloudPercent = "cloud"
+        case condition = "condition"
+        case senseCelsius = "feelslike_c"
+        case senseFahrenheit = "feelslike_f"
+        case humidity = "humidity"
+        case isDayTime = "is_day"
+        case lastUpdated = "last_updated"
+        case precipitationInch = "precip_in"
+        case precipitationMilimiters = "precip_mm"
+        case temperatureCelsius = "temp_c"
+        case temperatureFahrenheit = "temp_f"
+        case windKmPH = "wind_kph"
+        case windMPH = "wind_mph"
+    }
+}
+
+struct CurrentWeather: Codable {
+    let location: Location?
+    let weather: Weather?
+
+    enum CodingKeys: String, CodingKey {
+        case location = "location"
+        case weather = "current"
+    }
+}
+
 let request = CurrentWeatherRequest.location(latitude: 19.409079, longitude: -99.176728)
-Network.jsonRequest(request) { (result) in
+Network.performRequest(request) { (result: Result<CurrentWeather>) in
     debugPrint(result)
 }
 PlaygroundPage.current.needsIndefiniteExecution = true
