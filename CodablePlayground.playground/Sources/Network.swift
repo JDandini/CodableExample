@@ -7,7 +7,7 @@ final public class Network {
         do {
             let request = try request.toRequest()
             DispatchQueue.global(qos: .userInitiated).async {
-                let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
+                let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
                     guard error == nil else {
                         if let error = error {
                             completion(.failure(error))
@@ -23,7 +23,7 @@ final public class Network {
                         completion(.failure(error))
                     }
 
-                })
+                }
                 task.resume()
             }
         } catch let error {
@@ -36,7 +36,7 @@ final public class Network {
         do {
             let request = try request.toRequest()
             DispatchQueue.global(qos: .userInitiated).async {
-                let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
+                let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
                     guard error == nil else {
                         if let error = error {
                             completion(.failure(error))
@@ -52,7 +52,7 @@ final public class Network {
                         completion(.failure(error))
                     }
 
-                })
+                }
                 task.resume()
             }
         } catch let error {
