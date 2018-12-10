@@ -48,9 +48,8 @@ extension NetworkRequest {
         var urlRequest = URLRequest(url: url)
         urlRequest.allHTTPHeaderFields = defaultHeaders
         urlRequest.httpMethod = method.rawValue.uppercased()
-        if let body = parameters {
-            urlRequest.httpBody = try body.toJSONData()
-        }
+        urlRequest.httpBody = try parameters?.toJSONData()
+
         return urlRequest
     }
 }

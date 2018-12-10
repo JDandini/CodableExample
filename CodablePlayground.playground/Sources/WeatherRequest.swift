@@ -9,7 +9,7 @@ public enum CurrentWeatherRequest: NetworkRequest {
     public var path: String {
         switch self {
         case .location(let latitude, let longitude):
-            var retEndpoint = "current.json?" + "q="
+            var retEndpoint = "current.json?q="
             retEndpoint += String(latitude)
             retEndpoint += ","
             retEndpoint += String(longitude)
